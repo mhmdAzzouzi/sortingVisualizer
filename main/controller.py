@@ -1,22 +1,20 @@
 
 from view import View
 from model import Model
-
+from SerialNumber import LicenseKey
 class Controller:
     
-    def print_world(self):
-        print("hello world and hi")
 
     def change_frame(self, frame):
         frame.destroy()
         self.view._main_frame_2()
 
 
-    def verify(self, entry, frame):
-        if entry.get() == "123123":
-            self.change_frame(frame) 
-        else:
-            self.view.message()   
+    def verify(self, entry, frame , generated_info):
+            self.clear_text(entry)
+            key = generated_info.generate_key()
+            entry.set(key)
+  
 
     def clear_text(self , entry):
         entry.set("")

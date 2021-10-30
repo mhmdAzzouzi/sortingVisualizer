@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import font
 from tkinter.constants import CENTER
+from SerialNumber import LicenseKey
 
 class View(tk.Tk):
 
@@ -14,6 +15,9 @@ class View(tk.Tk):
           super().geometry("500x200")
           self.controller = controller
           self._main_frame_1()
+          self.generated_info = LicenseKey()
+        
+
    
     #main function to run the program
     def main(self): 
@@ -24,9 +28,10 @@ class View(tk.Tk):
        self.frm = ttk.Frame(self)
        self.frm.place(relx=0.5, rely=0.6, anchor=CENTER)
        self.licenseKey = tk.StringVar()
-       self._create_label("Please enter your license key here to access the application", 1 , 0 , self.frm)
+       self._create_label("Generate Your license key and press save", 1 , 0 , self.frm)
        self._create_entry(2, 0)
-       self._verify_button("Verify" , 3, 0)
+       self._verify_button("Generate" , 3, 0)
+       self._save_button("Save" , 4, 0 )
        self._clear_button("Clear" , 3 , 1)
 
    # this is to create a  frame 2 
@@ -44,7 +49,7 @@ class View(tk.Tk):
 
     # a function to create input box on frame 1
     def _create_entry(self, row , column):
-        entry = tk.Entry(self.frm, textvariable=self.licenseKey , width=40)
+        entry = tk.Entry(self.frm, textvariable=self.licenseKey , width=40, state="disabled")
         entry.grid(row= row , column=column , columnspan=2, padx=5 , pady=5)
         
     # a function to create a labe on frame 2
@@ -59,6 +64,9 @@ class View(tk.Tk):
 
     #verify button in frame 1
     def _verify_button(self, text, row , column):
-        button = tk.Button(self.frm, fg='green', text=text , width=20 , command=lambda: self.controller.verify(self.licenseKey, self.frm))        
+        button = tk.Button(self.frm, fg='green', text=text , width=20 , command=lambda: self.controller.verify(self.licenseKey, self.frm , self.generated_info))        
         button.grid(row=row , column=column , padx=5, pady=5 )
 
+    def _save_button(self, text, row , column):
+        button = tk.Button(self.frm, fg='black', text=text , width=20 , command=lambda: print("done"))        
+        button.grid(row=row , column=column , columnspan=2, padx=2, pady=5 )

@@ -1,9 +1,9 @@
-
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font
-from tkinter.constants import CENTER, W
+from tkinter.constants import CENTER, SW, W
 from SerialNumber import LicenseKey
+from sortingAlgo import sortingAlgorithm
 
 
 class View(tk.Tk):
@@ -13,9 +13,12 @@ class View(tk.Tk):
         super().__init__()
         super().title("Sorting Algorithm Visualizer")
         super().geometry("900x600")
+        self.sortingAlgo = sortingAlgorithm()
         self.controller = controller
-        self._main_frame_1()
+        self.program_frame()
+        
         self.generated_info = LicenseKey()
+        # self.generate = sortingAlgorithm
 
     # main function to run the program
 
@@ -34,23 +37,32 @@ class View(tk.Tk):
         self._save_button("Save", 4, 0)
         self._clear_button("Clear", 3, 1)
 
-    # def _main_frame_3():
-
-    # this is to create frame 3
+    def program_frame(self):
+        self.program_frame = tk.Frame(self, width=900, height=600, bg='white')
+        self.program_frame.grid(row=0, column=0)
+        self.user_menu()
+        self.draw_frame()
 
     def user_menu(self):
-        self.frm3 = tk.Frame(self, width=600, height=200, bg='grey')
+        self.frm3 = tk.Frame(self.program_frame, width=600, height=200, bg='grey')
         self.frm3.grid(row=0, column=0, padx=10, pady=5)
+        self.selected_alg = tk.StringVar()
         self._create_label_frame3("Algorithm : ", 0, 0, self.frm3)
         self._create_label_frame3("Size : ", 1, 0, self.frm3)
         self._create_label_frame3("Min Value : ", 1, 2, self.frm3)
         self._create_label_frame3("Max Value : ", 1, 4, self.frm3)
-        self._create_entry_frame3(1, 1)
-        self._create_entry_frame3(1, 3)
-        self._create_entry_frame3(1, 5)
+        minEntry = self._create_entry_frame3(1, 1)
+        maxEntry = self._create_entry_frame3(1, 3)
+        size = self._create_entry_frame3(1, 5)
         self._create_combobox_frame3(
             ['Bubble Sort', 'Merge Sort'], 0, 1, self.frm3)
-        self._generate_button_3("Generate", 0, 2)
+        self._generate_button_3( "Generate", 0, 2,minEntry,maxEntry,size)
+        
+
+    def draw_frame(self):
+        self.drawframe = tk.Frame(self.program_frame, width=600, height=380, bg='black')
+        self.drawframe.grid(row=1, column=0, padx=10, pady=5)
+        
 
   # message box
 
@@ -86,11 +98,11 @@ class View(tk.Tk):
 
     def _save_button(self, text, row, column):
         button = tk.Button(self.frm, fg='black', text=text,
-                           width=20, command=lambda: self.controller.change_frame(self._main_frame_1))
+                           width=20, command=lambda: self.controller.change_frame(self.frm))
         button.grid(row=row, column=column, columnspan=2, padx=2, pady=5)
 
     def _create_label_frame3(self, text, row, column, frame):
-        label = tk.Label(frame, text=text, fg='grey')
+        label = tk.Label(frame, text=text)
         label.grid(row=row, column=column, padx=5, pady=5, sticky=W)
 
     def _create_combobox_frame3(self, values, row, column, frame):
@@ -101,7 +113,7 @@ class View(tk.Tk):
         entry = tk.Entry(self.frm3)
         entry.grid(row=row, column=column, padx=5, pady=5, sticky=W)
 
-    def _generate_button_3(self, text, row, column):
+    def _generate_button_3(self, text, row, column, entry1,entry2,entry3):
         button = tk.Button(self.frm3, fg='red', text=text,
-                           command=lambda: self.sortingAlgo.Generate())
-        button.grid(row=row, column=column, padx=2, pady=5)
+                           command=lambda: self.sortingAlgo.Generate(entry1,entry2,entry3, self.drawframe))
+        button.grid(row=row, column=column, padx=5, pady=5)

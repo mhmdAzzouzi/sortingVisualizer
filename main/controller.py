@@ -2,12 +2,12 @@
 from view import View
 from model import Model
 from SerialNumber import LicenseKey
+
 class Controller:
     
-
     def change_frame(self, frame):
         frame.destroy()
-        self.view._main_frame_2()
+        self.user_menu()
 
 
     def verify(self, entry, frame , generated_info):

@@ -4,19 +4,17 @@ from tkinter import*
 # to create a new random array
 import random
 
-# from sortingVisualizer.main.view import View
-# from view import View
 
-# variables
-
-
+from Algorithms import Algorithms
 # # function to take an array with the data to draw
 
 class sortingAlgorithm:
-    def __init__(self):
-        
+    def __init__(self, View):
+        self.root = View.root
+        self.algorithms_class =  Algorithms() 
         pass
-    def drawData(self, data, frame):
+
+    def drawData(self, data, frame , colorArray):
             # to restart from the beginning
             Canvas = tk.Canvas(frame, width=600, height=380, bg='white')
             Canvas.delete("all")
@@ -38,15 +36,13 @@ class sortingAlgorithm:
                 # bottom right
                 x1 = (i + 1) * x_width + offset
                 y1 = c_height
-                Canvas.create_rectangle(x0, y0, x1, y1, fill="blue")
+                Canvas.create_rectangle(x0, y0, x1, y1, fill=colorArray[i])
                 Canvas.create_text(x0+2, y0, anchor=SW, text=str(data[i]))
             
             Canvas.grid(row=1, column=0, padx=10, pady=5)
-
+            self.root.update_idletasks()
     # function for the button
-    def Generate(self, minval,maxval,size,frame):
-            # print("Algorithm Selected : " + selected_alg.get())
-            data = [1, 2, 4, 6] # just checking the work
+    def Generate(self, minval,maxval,sizef,frame):
             # here we are tryin to catch all the exceptions of our work
             
             try:
@@ -58,7 +54,7 @@ class sortingAlgorithm:
             except:
                 maxVal = 10
             try:
-                size = int(size.get())
+                size = int(sizef.get())
             except:
                 size = 10
             # if else statements for exceptions too
@@ -72,9 +68,12 @@ class sortingAlgorithm:
                 # swap between min and max
                 minVal, maxVal = maxVal, minVal
 
-            data = []
+            self.data = []
             # loop for the empty array
             for _ in range(size):
-                data.append(random.randrange(minVal, maxVal))
-            self.drawData(data, frame)
-                
+                self.data.append(random.randrange(minVal, maxVal))
+            self.drawData(self.data, frame , ["red" for x in range(len(self.data))])
+            
+    def start_algorithm(self , speedScale , frame):
+         self.algorithms_class.bubble_sort( self.drawData , self.data , speedScale.get()  , frame )
+      

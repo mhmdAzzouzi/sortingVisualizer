@@ -1,0 +1,56 @@
+from screen import View
+import os
+import sys
+
+class Controller:
+
+    def deformat_string(self, key):
+                key = key.split("-")
+                key = ''.join(key)
+                key = key[::-1]
+
+                if len(key) %2== 1:
+                    s1 = key[:(len(key)+1)//2]
+                    s2 = key[(len(key)+1)// 2:]
+                else:
+                    s1 = key[:(len(key))//2]
+                    s2 = key[(len(key))// 2:]
+                
+                key = s2 +s1;
+
+                array = [key[i:i + 2] for i in range(0, len(key), 2)]
+                for i, pair in enumerate(array):
+                        pair = pair[::-1]
+                        array[i] = pair;
+                deformatted = ''.join(array)
+                return deformatted
+
+    def validate(self, program_frame , serial, license, security_frame):
+        print(self.deformat_string(license.get()))
+        if len(serial.get()) <=0 or len(license.get()) <=0:
+            return
+        elif self.deformat_string(license.get()) == serial.get():
+            self.save_key(license.get() , serial.get())
+            security_frame.destroy()
+            program_frame()
+        
+
+    def __init__(self):
+        self.view = View(self)
+
+
+    def main(self):
+        self.view.main()
+
+    def save_key(self, key, serial):
+            if len(key) == 0:
+                pass
+            else:
+                with open(os.path.join("./main", "LicenseKey.txt" ), "w") as file:
+                    file.write(serial + " : " + key)
+                    
+                  
+
+if __name__ == "__main__":
+    appCont = Controller()
+    appCont.main()

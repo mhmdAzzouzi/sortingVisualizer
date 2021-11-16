@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font
-from tkinter.constants import CENTER, HORIZONTAL, SW, W
+from tkinter.constants import CENTER, DISABLED, HORIZONTAL, SW, W
+
+import pyperclip
 from sortingAlgo import sortingAlgorithm
 import os
 import sys
@@ -12,15 +14,16 @@ class View(tk.Tk):
     def __init__(self, controller):
         super().__init__()
         super().title("Sorting Algorithm Visualizer")
-        super().geometry("900x600")
+        super().maxsize(900,600)
+        
         self.root = super()
         self.sortingAlgo = sortingAlgorithm(self)
         self.controller = controller
         if self.retrieve_key():
-            super().geometry("900x600")
+            # super().geometry("900x600")
             self.program_frame()
         else:
-            super().geometry("600x300")
+            self.serial_num = tk.StringVar()
             self.security_frame()
         # self.generate = sortingAlgorithm
 
@@ -45,17 +48,24 @@ class View(tk.Tk):
 
 
     def security_frame(self):
+        super().geometry("600x300")
         self.security_frame = tk.Frame(self)
-        self.security_frame.place(relx=0.5, rely=0.6, anchor=CENTER)
-        license= self._license_entry(1,0)
-        serial= self._serial_entry(2,0)
-        self._validate_button("Check" , 3,0 , license, serial)
+        self.buttons = tk.Frame(self , width=20)
+        self.security_frame.place(relx=0.5, rely=0.4, anchor=CENTER)
+        self.buttons.place(relx=0.53, rely=0.6, anchor=CENTER)
+        license= self._license_entry(1,1)
+        serial= self._serial_entry(2,1)
+        self._create_label("Serial number:  " , 1, 0 , self.security_frame , 1)
+        self._create_label("License key:  " , 2, 0,  self.security_frame, 1)
+        self.controller.get_serial_number(self.serial_num)
+        self._validate_button("Check" , 0, 0 , license, serial)
+        self._copy_button("Copy to clipboard" , 0,2)
    
 
 
     def program_frame(self):
-        super().geometry("900x600")
-        self.program_frame = tk.Frame(self, width=900, height=600, bg='white')
+        # super().geometry("900x600")
+        self.program_frame = tk.Frame(self)
         self.program_frame.grid(row=0, column=0)
         self.user_menu()
         self.draw_frame()
@@ -79,15 +89,15 @@ class View(tk.Tk):
         
 
     def draw_frame(self):
-        self.drawframe = tk.Frame(self.program_frame, width=600, height=380, bg='black')
+        self.drawframe = tk.Frame(self.program_frame, width=600, height=380)
         self.drawframe.grid(row=1, column=0, padx=10, pady=5)
         
     # a function to create input box on frame 1
 
     # a function to create a labe on frame 2
-    def _create_label(self, text, row, column, frame):
-        label = ttk.Label(frame, text=text, textvariable=self.licenseKey)
-        label.grid(row=row, column=column, columnspan=2,  padx=5, pady=5)
+    def _create_label(self, text, row, column, frame , span):
+        label = ttk.Label(frame, text=text , width=15)
+        label.grid(row=row, column=column,  padx=5, pady=5 , columnspan=span)
 
 
     def _create_label_frame3(self, text, row, column, frame):
@@ -118,15 +128,20 @@ class View(tk.Tk):
         return scale
 
     def _serial_entry(self, row ,column):
-        entry = tk.Entry(self.security_frame, width=40)
+        entry = tk.Entry(self.security_frame  , width=40)
         entry.grid(row =row , column=column, padx=5, pady=5)
         return entry
 
     def _license_entry(self, row, column):
-        entry = tk.Entry(self.security_frame, width=40)
+        entry = tk.Entry(self.security_frame, textvariable=self.serial_num,width=40 ,state=DISABLED)
         entry.grid(row= row  ,column=column , padx=5, pady=5)
         return entry
 
     def _validate_button(self, text, row,  column , entry , entry2):
-        button = tk.Button(self.security_frame , text=text , command= lambda: self.controller.validate(self.program_frame, entry ,entry2 , self.security_frame ))
-        button.grid(row= row, column=column)
+        button = tk.Button(self.buttons , width=15, text=text , command= lambda: self.controller.validate(self.program_frame, entry ,entry2 , self.security_frame ))
+        button.grid(row= row , column=column, padx=5, pady=10)
+
+    def _copy_button(self, text, row, column):
+        button = tk.Button(self.buttons , width=15, text=text , command=lambda: pyperclip.copy(self.serial_num.get()))
+        button.grid(row=row,column=column,padx=30, pady=10)
+        

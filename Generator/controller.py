@@ -71,8 +71,12 @@ class Controller():
                     if len(chunk) == 4:
                         key+="-"
                         chunk=""
-    
-                return key[:-1]
+                if len(key) <=0:
+                    return ""
+                if key[len(key)-1] == "-":
+                    return key[:-1]
+                else:
+                    return key
         
         def save_key(self, key):
             if len(key) == 0:

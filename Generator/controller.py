@@ -3,6 +3,7 @@ import os
 import sys
 import random
 import tkinter as tk
+import pyperclip
 
 class Controller():
 
@@ -58,6 +59,20 @@ class Controller():
                 deformatted = ''.join(array)
                 return deformatted
 
+        def copy_to_clipbaord(self, licenseKey, error, success ):
+                try:
+                    if len(licenseKey) <= 0:
+                        success.set("")
+                        error.set("Please generate a key to copy")
+                    else:
+                        pyperclip.copy(licenseKey)
+                        error.set("")
+                        success.set("copied to clipboard ")
+         
+                    
+                except:
+                         print("failed to copy")
+
         def generate_key(self , serial_number):
                 key = ""
                 chunk = ""
@@ -82,18 +97,18 @@ class Controller():
             if len(key) == 0:
                 pass
             else:
-                with open(os.path.join("./Generator", "LicenseKey.txt" ), "w") as file:
+                with open(os.path.join("Generator", "LicenseKey.txt" ), "w") as file:
                     file.write(self.serial_number + " : " + key)
                     self.view.quit()
                   
 
-        def retrieve_key(self ):
-            with open(os.path.join("./Generator", "LicenseKey.txt") , "r") as file:
-                first_line = file.readlines(1)
-                key_from_file = first_line[0].split(":")[1].strip()
-                print(self.serial_number + " : " + key_from_file)
-                if len(key_from_file) > 0:
-                   return True
-                else:
-                  return False
+        # def retrieve_key(self ):
+        #     with open(os.path.join("Generator", "LicenseKey.txt") , "r") as file:
+        #         first_line = file.readlines(1)
+        #         key_from_file = first_line[0].split(":")[1].strip()
+        #         print(self.serial_number + " : " + key_from_file)
+        #         if len(key_from_file) > 0:
+        #            return True
+        #         else:
+        #           return False
 

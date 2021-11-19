@@ -1,3 +1,4 @@
+from typing import Collection
 from screen import View
 import os
 import sys
@@ -32,9 +33,12 @@ class Controller:
                 deformatted = ''.join(array)
                 return deformatted
 
-    def validate(self, program_frame , serial, license, security_frame ):
+    def validate(self, program_frame , serial, license, security_frame ,error ,success, error_label, success_label ):
         print(self.deformat_string(license.get()))
         if len(serial.get()) <=0 or len(license.get()) <=0:
+            success_label.grid_forget()
+            error_label.grid(row=0, column=0, columnspan=2, pady=10)
+            error.set("please enter a valid license key")
             return
         elif self.deformat_string(license.get()) == serial.get():
             self.save_key(license.get() , serial.get())
@@ -42,16 +46,23 @@ class Controller:
             self.view.root.maxsize(900,600)
             self.view.root.geometry("680x510")
             program_frame()
+        else:
+            success_label.grid_forget()
+            error_label.grid(row=0, column=0, columnspan=2, pady=10)
+            error.set("the key you entered is invalid")
+            
        
-    def copy_to_clipbaord(self, licenseKey, error, success ):
+    def copy_to_clipbaord(self, serial, error, success, error_label, success_label):
                 try:
-                    if len(licenseKey) <= 0:
+                    if len(serial) <= 0:
                         success.set("")
-                        error.set("Please generate a key to copy")
+                        error.set("Please enter a valid serial number")
                     else:
-                        pyperclip.copy(licenseKey)
+                        pyperclip.copy(serial)
                         error.set("")
-                        success.set("serial number copied to clipboard ")
+                        error_label.grid_forget()
+                        success_label.grid(row= 0, column=0, columnspan=2, pady=10)
+                        success.set("serial number copied to clipboard")
                 except:
                     print("failed to copy to clipboard")
 

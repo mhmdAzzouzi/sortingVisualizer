@@ -12,9 +12,9 @@ class Algorithms:
               for j in range(len(data)-1):
                   if data[j] > data[j+1]:
                       data[j] , data[j+1] = data[j+1], data[j]
-                      drawData(data ,frame, ["green" if element == j or element == j+1 else "red" for element in range(len(data))] )
+                      drawData(data ,frame, ["#ffff00" if element == j or element == j+1 else "#8f3cb5" for element in range(len(data))] )
                       time.sleep(timetick)
 
-          drawData(data, frame , ["green" for x in range(len(data))])
+          drawData(data, frame , ["#ffff00" for x in range(len(data))])
 
 

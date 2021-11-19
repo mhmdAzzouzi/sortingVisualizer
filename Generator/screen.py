@@ -6,7 +6,7 @@ from tkinter.constants import CENTER, NW, SW, W
 import os
 import tkinter.font as tkFont
 import sys
-
+from tkinter import *
 import pyperclip 
 
  

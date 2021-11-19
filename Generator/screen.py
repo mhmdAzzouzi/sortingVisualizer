@@ -2,10 +2,11 @@ import tkinter as tk
 
 from tkinter import ttk
 from tkinter.constants import CENTER, NW, SW, W
-from PIL import Image, ImageTk
+
 import os
 import tkinter.font as tkFont
 import sys
+
 import pyperclip 
 
  
@@ -27,16 +28,20 @@ class Screen(tk.Tk):
            self.mainloop()
               
         def _main_frame_1(self):
+          
              self.frm = tk.Frame(self, width=20)
              self.frm.place(relx=0.5, rely=0.4, anchor=CENTER)
              self.buttons = tk.Frame(self , width=20 )
-             self.buttons.place(relx=0.5, rely=0.68, anchor=CENTER)
+             self.buttons.place(relx=0.5, rely=0.75, anchor=CENTER)
+             self.errors = tk.StringVar()
+             self.success = tk.StringVar()
              self.licenseKey = tk.StringVar()
              self.serial = tk.StringVar()
 
             #  tkimage = ImageTk. PhotoImage(file="main\key.png")   
             #  self._image_label(tkimage , 1, 0, self.frm )
-
+             self.success_msg_box = self._message_label("" , 0, 0 , self.frm ,self.success, "green")
+             self.success_msg_box = self._message_label("" , 0, 0 , self.frm , self.errors, "red")
              self._create_label(
                  "Serial Number", 2, 0, self.frm)
              self._create_label(
@@ -61,11 +66,16 @@ class Screen(tk.Tk):
             entry = tk.Entry(self.frm , textvariable=self.serial , width=40 )
             entry.grid(row = row , column=column , columnspan= 1 , padx=5 , pady=10)
     
-             
+        
+        def _message_label(self, text, row, column, frame, variable, color ):
+           fontStyle = tkFont.Font(family="Lucida Grande", size=11)
+           label = tk.Label(frame ,  textvariable=variable, font=fontStyle, fg=color)
+           label.grid(row=row, column=column , columnspan=2, pady=5)
+           return label
 
         def _create_label(self, text, row, column, frame):
             fontStyle = tkFont.Font(family="Lucida Grande", size=11)
-            label = ttk.Label(frame, text=text ,font=fontStyle)
+            label = tk.Label(frame, text=text ,font=fontStyle)
             label.grid(row=row, column=column, columnspan=1, pady=5)
 
 
@@ -83,7 +93,7 @@ class Screen(tk.Tk):
 
         def _copy_button(self, text,row,column , span):
         
-            button = tk.Button(self.buttons , width=15 , text=text , command=lambda: pyperclip.copy(self.licenseKey.get()))
+            button = tk.Button(self.buttons , width=15 , text=text , command=lambda: self.controller.copy_to_clipbaord(self.licenseKey.get(), self.errors , self.success  ))
             button.grid(row=row, column=column, columnspan=span, padx=30, pady=10)
 
         # def _image_label(self, image , row , column , frame):

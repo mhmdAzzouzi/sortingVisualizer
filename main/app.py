@@ -1,6 +1,7 @@
 from screen import View
 import os
 import sys
+import pyperclip
 
 class Controller:
 
@@ -41,7 +42,18 @@ class Controller:
             self.view.root.maxsize(900,600)
             self.view.root.geometry("680x510")
             program_frame()
-        
+       
+    def copy_to_clipbaord(self, licenseKey, error, success ):
+                try:
+                    if len(licenseKey) <= 0:
+                        success.set("")
+                        error.set("Please generate a key to copy")
+                    else:
+                        pyperclip.copy(licenseKey)
+                        error.set("")
+                        success.set("serial number copied to clipboard ")
+                except:
+                    print("failed to copy to clipboard")
 
     def __init__(self):
         self.view = View(self)
@@ -55,7 +67,7 @@ class Controller:
             if len(key) == 0:
                 pass
             else:
-                with open(os.path.join("./main", "LicenseKey.txt" ), "w") as file:
+                with open(os.path.join("main", "LicenseKey.txt" ), "w") as file:
                     file.write(serial + " : " + key)
                     
                   

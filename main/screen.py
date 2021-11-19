@@ -7,7 +7,6 @@ import pyperclip
 from sortingAlgo import sortingAlgorithm
 import os
 import sys
-from PIL import Image, ImageTk 
 class View(tk.Tk):
 
     # constructor to initialize the view class
@@ -30,7 +29,7 @@ class View(tk.Tk):
     # main function to run the program
     def retrieve_key(self ):
         try:
-            with open(os.path.join("./main", "LicenseKey.txt") , "r") as file:
+            with open(os.path.join("main", "LicenseKey.txt") , "r") as file:
                     first_line = file.readlines(1)
                     key_from_file = first_line[0].split(":")[1].strip()
                     serial_from_file = first_line[0].split(":")[0].strip()
@@ -55,6 +54,10 @@ class View(tk.Tk):
         self.buttons.place(relx=0.53, rely=0.6, anchor=CENTER)
         license= self._license_entry(1,1)
         serial= self._serial_entry(2,1)
+        self.errors =tk.StringVar()
+        self.success = tk.StringVar()
+        self.message_label(0,0,self.security_frame,self.errors, "red")
+        self.message_label(0,0,self.security_frame,self.success, "green")
         self._create_label("Serial number:  " , 1, 0 , self.security_frame , 1)
         self._create_label("License key:  " , 2, 0,  self.security_frame, 1)
         self.controller.get_serial_number(self.serial_num)
@@ -99,6 +102,9 @@ class View(tk.Tk):
         label = ttk.Label(frame, text=text , width=15)
         label.grid(row=row, column=column,  padx=5, pady=5 , columnspan=span)
 
+    def message_label(self,row,column ,frame, variable, color):
+        label= tk.Label(frame , textvariable=variable, fg=color)
+        label.grid(row= row, column= column, columnspan=2 )
 
     def _create_label_frame3(self, text, row, column, frame):
         label = tk.Label(frame, text=text)
@@ -142,6 +148,6 @@ class View(tk.Tk):
         button.grid(row= row , column=column, padx=5, pady=10)
 
     def _copy_button(self, text, row, column):
-        button = tk.Button(self.buttons , width=15, text=text , command=lambda: pyperclip.copy(self.serial_num.get()))
+        button = tk.Button(self.buttons , width=15, text=text , command=lambda: self.controller.copy_to_clipbaord(self.serial_num.get(), self.errors , self.success  ))
         button.grid(row=row,column=column,padx=30, pady=10)
         

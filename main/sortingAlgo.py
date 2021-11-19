@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import*
 # to create a new random array
 import random
+from tkinter import font
 
 
 from Algorithms import Algorithms
@@ -16,14 +17,14 @@ class sortingAlgorithm:
 
     def drawData(self, data, frame , colorArray):
             # to restart from the beginning
-            Canvas = tk.Canvas(frame, width=600, height=380, bg='white')
+            Canvas = tk.Canvas(frame, width=600, height=380, bg="#33002e")
             Canvas.delete("all")
             c_height = 380
             c_width = 600
             # width of the var graphs which it will be calculated because we need to scale it and not have it set
             x_width = c_width/(len(data)+1)
             # we don't want to start at the borders
-            offset = 30
+            offset = 40
             spacing = 10
             # we need to normalize values from 0 to 1 so we have to make the exact same size
             normalizedData = [i / max(data) for i in data]
@@ -37,14 +38,14 @@ class sortingAlgorithm:
                 x1 = (i + 1) * x_width + offset
                 y1 = c_height
                 Canvas.create_rectangle(x0, y0, x1, y1, fill=colorArray[i])
-                Canvas.create_text(x0+2, y0, anchor=SW, text=str(data[i]))
+                Canvas.create_text(x0+2, y0, anchor=SW, text=str(data[i] ), fill="white")
             
             Canvas.grid(row=1, column=0, padx=10, pady=5)
             self.root.update_idletasks()
     # function for the button
-    def Generate(self, minval,maxval,sizef,frame):
+    def Generate(self, minval,maxval,sizef,frame, label):
             # here we are tryin to catch all the exceptions of our work
-            
+            label.destroy()
             try:
                 minVal = int(minval.get())
             except:
@@ -72,7 +73,7 @@ class sortingAlgorithm:
             # loop for the empty array
             for _ in range(size):
                 self.data.append(random.randrange(minVal, maxVal))
-            self.drawData(self.data, frame , ["red" for x in range(len(self.data))])
+            self.drawData(self.data, frame , ["#8f3cb5" for x in range(len(self.data))])
             
     def start_algorithm(self , speedScale , frame):
          self.algorithms_class.bubble_sort( self.drawData , self.data , speedScale.get()  , frame )

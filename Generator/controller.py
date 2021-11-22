@@ -18,15 +18,9 @@ class Controller():
             error.set("Please enter the serial number")
         else:
             error.set("")
-            self.serial_number = os.popen("wmic diskdrive get SerialNumber").read(
-            ).replace("SerialNumber", "").replace("\n", " ").strip().split(" ")[0]
-            if serial_text.get()!=self.serial_number:
-                error.set("Just paste the copied serial number YOU CHEATER")
-            else:
-                error.set("")
-                # self.serial_number = str(serial_text.get())
-                key = self.generate_key(str(serial_text.get()))
-                licenseString.set(key)
+            self.serial_number = str(serial_text.get())
+            key = self.generate_key(str(serial_text.get()))
+            licenseString.set(key)
 
     def clear_text(self, entry):
         entry.set("")

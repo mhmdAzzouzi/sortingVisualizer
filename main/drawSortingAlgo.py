@@ -83,11 +83,12 @@ class sortingAlgorithm:
         self.drawData(self.data, frame, [
                       "#8f3cb5" for x in range(len(self.data))])
 
-    def start_algorithm(self, speedScale,frame): #,value
+    def start_algorithm(self, speedScale,frame,combo): #,value
         # if value == 'Merge Sort':
-            self.algorithms_class.merge_sort(
-            self.drawData, self.data, speedScale.get(), frame)
-            # else:
-        # elif value == 'Bubble Sort':
-        #     self.algorithms_class.bubble_sort(
-        #     self.drawData, self.data, speedScale.get(), frame)
+            if combo.get() == "Merge Sort":
+                self.algorithms_class.merge_sort(
+                self.drawData, self.data, speedScale.get(), frame )
+            
+            elif combo.get() == 'Bubble Sort':
+                self.algorithms_class.bubble_sort(
+                self.drawData, self.data, speedScale.get(), frame)

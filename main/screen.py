@@ -18,15 +18,16 @@ class View(tk.Tk):
         super().maxsize(900, 600)
 
         # "#262623"
-
+        ##242423
+        # 3c026b
         # Main Color theme and font styles
-        self.main_color = "#3c026b"
-        self.user_menu_color = "#db16ad"
+        self.main_color = "#242423"
+        self.user_menu_color = "#242423"
         # self.security_frame_color = "#B0015B"
-        self.fonts = tkFont.Font(family="Times", size=12)
-        self.label_fonts = tkFont.Font(family="Times", size=12)
-        self.message_fonts = tkFont.Font(family="Times", size=10)
-        self.button_fonts = tkFont.Font(family="Times", size=9)
+        self.fonts = tkFont.Font(family="san serif", size=12)
+        self.label_fonts = tkFont.Font(family="san serif", size=12)
+        self.message_fonts = tkFont.Font(family="san serif", size=10)
+        self.button_fonts = tkFont.Font(family="san serif", size=9)
         # self.entry_fonts = tkFont.Font(family="Times", size=9)
         #####################
 
@@ -96,6 +97,8 @@ class View(tk.Tk):
         self._create_label_frame3("Algorithm : ", 0, 0, self.frm3)
         speedScale = self._speed_scale("Select Speed", 0, 4)
 
+        self.combo =tk.StringVar();
+
         self._create_combobox_frame3(
             ['Bubble Sort', 'Merge Sort'], 0, 1, self.frm3)
         self._start_button("Start Visualization", 0, 3, speedScale)
@@ -141,12 +144,12 @@ class View(tk.Tk):
 
     def _create_combobox_frame3(self, values, row, column, frame):
         combobox = ttk.Combobox(
-            frame, values=values, font=self.label_fonts, state="readonly")
+            frame, textvariable=self.combo, values=values, font=self.label_fonts, state="readonly")
         combobox.current(1)
         # values = combobox.get()
         combobox.grid(row=row, column=column, padx=5, pady=5)
         # combobox.bind("<<ComboboxSelected>>", self.value)
-        # return combobox
+        return combobox
 
     def _create_entry_frame3(self, row, column):
         entry = tk.Entry(self.frm3)
@@ -160,7 +163,7 @@ class View(tk.Tk):
 
     def _start_button(self, text, row, column, speedScale):
         button = tk.Button(self.frm3, font=self.button_fonts, background=self.main_color, foreground="white",
-                           text=text, command=lambda: self.sortingAlgo.start_algorithm(speedScale, self.drawframe))
+                           text=text, command=lambda: self.sortingAlgo.start_algorithm(speedScale, self.drawframe, self.combo))
         button.grid(row=row, column=column)
 
     def _speed_scale(self, text, row, column):

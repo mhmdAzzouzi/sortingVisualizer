@@ -45,7 +45,7 @@ class Controller:
             self.save_key(license.get(), serial.get())
             security_frame.destroy()
             self.view.root.maxsize(900, 600)
-            self.view.root.geometry("680x510")
+            self.view.root.geometry("800x580")
             program_frame()
         else:
             success_label.grid_forget()

@@ -54,5 +54,5 @@ class Algorithms:
                 right_index += 1
 
         drawData(data, frame, ["#ffff00" if x >= left and x <=
-                 right else "white" for x in range(len(data))])
+                 right else "#8f3cb5" for x in range(len(data))])
         time.sleep(timetick)

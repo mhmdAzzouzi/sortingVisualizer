@@ -100,7 +100,7 @@ class View(tk.Tk):
         self.combo =tk.StringVar();
 
         self._create_combobox_frame3(
-            ['Bubble Sort', 'Merge Sort'], 0, 1, self.frm3)
+            ['Bubble Sort', 'Merge Sort', 'Quick Sort'], 0, 1, self.frm3)
         self._start_button("Start Visualization", 0, 3, speedScale)
         self._create_label_frame3("Size : ", 1, 0, self.frm3)
         self._create_label_frame3("Min Value : ", 1, 2, self.frm3)

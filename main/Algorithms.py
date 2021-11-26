@@ -56,3 +56,52 @@ class Algorithms:
         drawData(data, frame, ["#ffff00" if x >= left and x <=
                  right else "#8f3cb5" for x in range(len(data))])
         time.sleep(timetick)
+
+    def partition(self, data, head, tail, darwData, timeTick ,frame):
+        border = head
+        pivot = data[tail]
+        darwData(data, frame, self.getColorArray(len(data)  , head, tail ,border, border))
+        time.sleep(.025)
+        for j in range(head, tail):
+            if data[j] < pivot:
+                # darwData(data,  frame,self.getColorArray(len(data) , head, tail ,border, j , True) )
+                # time.sleep(.025)
+                data[border], data[j] = data[j] , data[border]
+                border+=1
+            darwData(data,  frame,self.getColorArray(len(data)  , head, tail ,border, j) )
+            time.sleep(.025)
+
+        # darwData(data,  frame,self.getColorArray(len(data) , head, tail ,border, tail, True) )
+        # time.sleep(.025)
+        data[border], data[tail] = data[tail], data[border]
+        darwData(data,  frame,self.getColorArray(len(data) , head, tail ,border, tail, True) )
+        time.sleep(.025)
+        return border
+
+    def quick_sort(self,data, head, tail, drawData, timeTick ,frame):
+        if head< tail:
+            partitionIdx = self.partition(data, head, tail, drawData, timeTick, frame);
+            self.quick_sort(data, head, partitionIdx-1 ,drawData, timeTick ,frame)
+            self.quick_sort(data, partitionIdx+1, tail, drawData, timeTick , frame)
+        
+
+    
+    def getColorArray( self, dataLen , head, tail , border, currentIdx , isSwapping=False):
+            colorArray=[]
+            for i in range(dataLen):
+                    if i >= head and i<=tail:
+                        colorArray.append('yellow')
+                    else:
+                        colorArray.append('purple')
+
+                    if i == tail:
+                        colorArray[i] = 'lightBlue'
+                    elif i== border:
+                        colorArray[i]='grey'
+                    elif i == currentIdx:
+                        colorArray[i] = 'white'
+                    if isSwapping:
+                        if i == border or i==currentIdx:
+                            colorArray[i] = 'white'
+
+            return colorArray

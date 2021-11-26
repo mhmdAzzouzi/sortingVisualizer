@@ -92,3 +92,6 @@ class sortingAlgorithm:
             elif combo.get() == 'Bubble Sort':
                 self.algorithms_class.bubble_sort(
                 self.drawData, self.data, speedScale.get(), frame)
+            elif combo.get() == "Quick Sort":
+                print(speedScale)
+                self.algorithms_class.quick_sort(self.data , 0 , len(self.data) -1, self.drawData,  speedScale.get() , frame)

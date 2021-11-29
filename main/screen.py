@@ -65,8 +65,8 @@ class View(tk.Tk):
 
     def security_frame(self):
         super().geometry("600x300")
-        self.security_frame = tk.Frame(self, bg=self.main_color)
-        self.buttons = tk.Frame(self, width=20, bg=self.main_color)
+        self.security_frame = tk.Frame(self, bg=  self.main_color)
+        self.buttons = tk.Frame(self, width=20, bg=  self.main_color)
         self.security_frame.place(relx=0.5, rely=0.4, anchor=CENTER)
         self.buttons.place(relx=0.60, rely=0.75, anchor=CENTER)
         license = self._license_entry(1, 1)

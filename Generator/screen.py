@@ -11,7 +11,7 @@ import pyperclip
 
 
 class Screen(tk.Tk):
-    main_color = "#3c026b"
+    main_color =  "#242423"
     def __init__(self, controller):
         super().__init__()
         super().title("License Key Generator")

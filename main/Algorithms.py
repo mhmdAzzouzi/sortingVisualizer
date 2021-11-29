@@ -83,7 +83,7 @@ class Algorithms:
             partitionIdx = self.partition(data, head, tail, drawData, timeTick, frame);
             self.quick_sort(data, head, partitionIdx-1 ,drawData, timeTick ,frame)
             self.quick_sort(data, partitionIdx+1, tail, drawData, timeTick , frame)
-        
+        drawData(data, frame, ["#ffff00" for x in range(len(data))])
 
     
     def getColorArray( self, dataLen , head, tail , border, currentIdx , isSwapping=False):
@@ -95,7 +95,7 @@ class Algorithms:
                         colorArray.append('purple')
 
                     if i == tail:
-                        colorArray[i] = 'lightBlue'
+                        colorArray[i] = 'teal'
                     elif i== border:
                         colorArray[i]='grey'
                     elif i == currentIdx:
